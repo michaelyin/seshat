@@ -25,6 +25,12 @@
 
 using namespace std;
 
+/**
+ * Class to load segmentation.gmm/sparels.gmm files
+ * one is for segmentation model, and the other for space relationship model.
+ * port it to python.
+ */
+
 GMM::GMM( char *model ) {
   loadModel( model );
 }
