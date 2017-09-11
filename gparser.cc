@@ -21,6 +21,9 @@
 
 #define SIZE 1024
 
+/**
+ * class to load Non-terminal symbols, terminal symbols, and production rules
+ */
 gParser::gParser(Grammar *gram, FILE *fd, char *path) {
   g = gram;
 
@@ -100,6 +103,7 @@ bool gParser::nextLine(FILE *fd, char *lin) {
       return false;
   }while( lin[0]=='#' || strlen(lin)<=1 );
 
+  //printf("read in: %s\n", lin);
   return true;
 }
 
@@ -127,7 +131,7 @@ void gParser::parse(FILE *fd) {
   //Read terminal productions
   while( nextLine(fd, linea) && strcmp(linea, "PBIN\n") ) {
     float pr;
-
+    //0.05751515 Digit 0 0  (from mathexp.gram)
     sscanf(linea, "%f %s %s %s", &pr, tok1, tok2, aux);
     
     g->addTerminal(pr, tok1, tok2, aux);
@@ -142,6 +146,8 @@ void gParser::parse(FILE *fd) {
       fprintf(stderr, "Error: Grammar not valid (PBIN)\n");
       exit(-1);
     }
+    //0.06462269 H Term Term OpTerm "$1 $2" M
+    printf("tokens: %s, %s, %s, %s, %s, %s", tokens[0], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]) ;
 
     if( !strcmp(tokens[1], "H") )
       g->addRuleH(atof(tokens[0]), tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
